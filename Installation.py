@@ -1,5 +1,4 @@
-   # @title 1. Install dependencies  {display-mode: "form"}
-# Takes ~2 min on first run; subsequent runs skip already-installed packages.
+# @title 1. Install dependencies  {display-mode: "form"}
 import subprocess, sys
 
 def run(cmd):
