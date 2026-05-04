@@ -1,0 +1,29 @@
+{
+  "camera_matrix": [
+    [
+      1477.00974684544,
+      0.0,
+      1298.2501500778505
+    ],
+    [
+      0.0,
+      1480.4424455584467,
+      686.8201623541711
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "image_width": 2560,
+  "image_height": 1440,
+  "note": "Undistorted pinhole intrinsics (use with undistorted images)",
+  "distortion_coefficients": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ]
+}
