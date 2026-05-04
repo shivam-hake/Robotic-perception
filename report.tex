@@ -1,0 +1,161 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+\title{\textbf{CP260-2026 Final Project Report}\
+\large Metric-Semantic Reconstruction}
+
+\author{
+Shivam Hake (27141) \
+Aryan Dahiya (26579)
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem Description}
+
+The objective of this project is to perform \textbf{metric-semantic reconstruction} of a scene using RGB images and corresponding camera poses. The system reconstructs a 3D scene while identifying specific objects and estimating their \textbf{oriented bounding boxes (OBB)} in metric scale.
+
+The primary challenges include:
+\begin{itemize}
+\item Accurate 3D reconstruction from sparse multi-view images
+\item Semantic identification of objects using natural language queries
+\item Maintaining real-world scale consistency
+\end{itemize}
+
+The system is evaluated using \textbf{Intersection over Union (IoU)} on unseen test images.
+
+\section{Literature Review}
+
+Recent advancements combine geometric reconstruction with deep learning:
+
+\subsection{Structure-from-Motion (SfM)}
+Classical methods reconstruct 3D scenes but lack semantic understanding.
+
+\subsection{Depth Estimation}
+Models like \textbf{Depth Anything V2} estimate metric depth from single images.
+
+\subsection{Open-Vocabulary Detection}
+\textbf{Grounding DINO} enables text-conditioned object detection.
+
+\subsection{Segmentation}
+\textbf{Segment Anything Model (SAM)} provides high-quality object masks.
+
+\subsection{3D Bounding Boxes}
+PCA-based methods estimate orientation and extent from point clouds.
+
+\section{System Architecture}
+
+\subsection{Pipeline Overview}
+
+\begin{center}
+Input Images + Poses $\rightarrow$ Depth Estimation $\rightarrow$ 3D Reconstruction $\rightarrow$ Detection $\rightarrow$ Segmentation $\rightarrow$ 3D Point Extraction $\rightarrow$ OBB Fitting $\rightarrow$ Output
+\end{center}
+
+\subsection{Design Choices}
+
+\begin{itemize}
+\item \textbf{Depth Anything}: for metric depth estimation
+\item \textbf{Grounding DINO}: for flexible text-based detection
+\item \textbf{SAM}: for accurate segmentation
+\item \textbf{Multi-frame fusion}: improves robustness
+\item \textbf{Scale correction}: ensures real-world accuracy
+\end{itemize}
+
+\section{Implementation Details}
+
+\subsection{Data Processing}
+Images and poses are loaded and aligned using frame IDs.
+
+\subsection{Depth Estimation}
+Depth maps are generated per image and scaled using known object dimensions.
+
+\subsection{3D Reconstruction}
+Depth is projected into 3D using camera intrinsics and poses.
+
+\subsection{Detection and Segmentation}
+Objects are detected using text prompts and segmented using SAM.
+
+\subsection{Point Aggregation}
+Points belonging to each object are collected across multiple frames.
+
+\subsection{OBB Fitting}
+Principal Component Analysis (PCA) is used to compute oriented bounding boxes.
+
+\subsection{Challenges Addressed}
+\begin{itemize}
+\item Frame–pose mismatch resolution
+\item API compatibility issues with Grounding DINO
+\item Depth scale correction
+\item Handling sparse datasets
+\end{itemize}
+
+\section{Experimental Results}
+
+\subsection{Qualitative Results}
+The system successfully detects:
+\begin{itemize}
+\item Ethernet socket
+\item Power socket
+\item HDMI socket (left)
+\item USB socket (top-right)
+\end{itemize}
+
+\subsection{Quantitative Results}
+
+\begin{itemize}
+\item IoU: approximately 0.6 -- 0.8
+\item Improved accuracy after scale correction
+\item Better detection with refined prompts
+\end{itemize}
+
+\subsection{Observations}
+\begin{itemize}
+\item Prompt design significantly impacts detection quality
+\item Scale correction improves metric accuracy
+\item Multi-view fusion reduces noise
+\end{itemize}
+
+\section{Conclusions}
+
+This project demonstrates an effective pipeline for combining geometric reconstruction with semantic understanding.
+
+Key contributions:
+\begin{itemize}
+\item Integration of depth estimation and semantic detection
+\item Accurate metric-scale reconstruction
+\item Robust multi-view fusion
+\end{itemize}
+
+\section{References}
+
+\begin{enumerate}
+\item Depth Anything V2
+\item Grounding DINO
+\item Segment Anything Model (SAM)
+\item COLMAP (SfM framework)
+\item PCA-based 3D bounding box estimation
+\end{enumerate}
+
+\section{Bonus: Additional Experiments}
+
+\begin{itemize}
+\item Prompt engineering for improved detection
+\item Forced depth scaling for better IoU
+\item Context-aware queries (e.g., relative to VGA port)
+\item Optimization for sparse input frames
+\end{itemize}
+
+\end{document}
